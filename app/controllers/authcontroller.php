@@ -24,7 +24,6 @@ class AuthController extends AbstractController
 
     public function loginAction()
     {
-
         if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true) {
             $this->redirect('/');
             exit;

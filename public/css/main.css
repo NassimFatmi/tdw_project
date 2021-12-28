@@ -63,6 +63,7 @@ button, .link-btn {
     padding: .5rem 1rem;
     border-radius: var(--border-radius);
 }
+
 .link-btn {
     display: inline-block;
     text-decoration: none;
@@ -179,7 +180,7 @@ footer ul li a {
 .auth form input:not(input[type='checkbox']) {
     margin-left: auto;
     margin-right: auto;
-    width: 350px;
+    width: 100%;
 }
 
 .auth input[type='checkbox'] {
@@ -187,17 +188,17 @@ footer ul li a {
 }
 
 .auth label {
-    width: 350px;
+    width: 100%;
     margin: 0 auto;
     display: block;
 }
 
 .adresse {
-    text-align: center;
-    width: 350px;
+    width: 100%;
     margin: 1rem auto;
 }
-.adresse h4,.trajets h4 {
+
+.adresse h4, .trajets h4 {
     text-align: start;
     font-weight: normal;
     margin-bottom: 1rem;
@@ -253,19 +254,24 @@ input.error {
     margin-top: var(--section-padding);
     margin-bottom: var(--section-padding);
 }
+
 .annonce form {
-    width: 300px;
+    width: 350px;
     margin: 0 auto;
 }
+
 .annonce form input:not(input[type='radio']) {
     width: 100%;
 }
+
 .annonce .poids-radio {
     padding: .2rem;
 }
+
 .annonce .choose-poids {
     margin-bottom: 1rem;
 }
+
 .annonce select {
     padding: .5rem 1rem;
     width: 100%;
@@ -279,11 +285,18 @@ input.error {
 .annonce select:hover {
     outline-width: 1px;
 }
+
 .annonce form textarea {
     padding: .5rem 1rem;
     width: 100%;
     max-height: 120px;
     border-radius: var(--border-radius);
-    font-family: 'Poppins',sans-serif;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 1rem;
 }
+
+.annonce .adresse {
+    border: 1px solid rgb(0 0 0 / 10%);
+}
+
 /* End annonce */

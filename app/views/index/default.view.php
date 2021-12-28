@@ -16,7 +16,7 @@
     </div>
 </section>
 <?php
-if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true) {
+if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true && is_a($_SESSION["user"],\TDW\Models\Client::class)) {
     ?>
 
     <section class="operations">
@@ -26,7 +26,7 @@ if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true) {
             </h2>
             <div>
                 <p>Créer votre annonce, et chercher des transporteur</p>
-                <a class="link-btn" href="/annonce">Créer une annonce</a>
+                <a class="link-btn" href="/annonce/create">Créer une annonce</a>
             </div>
         </div>
     </section>

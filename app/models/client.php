@@ -28,8 +28,8 @@ class Client extends AbstractModel
             $stmt->bindParam(4, $password);
             $stmt->bindParam(5, $this->phone);
             $stmt->bindParam(6, $this->adresse->getAdresseId());
-            $result  = $stmt->execute();
-            if(!$result) return false;
+            $result = $stmt->execute();
+            if (!$result) return false;
             $userId = $db->lastInsertId();
             $this->setId($userId);
             return true;
@@ -74,6 +74,28 @@ class Client extends AbstractModel
             } else {
                 return false;
             }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function saveClientAnnonce($annonce)
+    {
+        if (!$annonce->saveAnnonce()) return false;
+        if (!$this->_saveLinkAnnonceClient($annonce->getAnnonceId())) return false;
+        return true;
+    }
+
+    private function _saveLinkAnnonceClient($annonceId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('INSERT INTO clientannonce (clientId, annonceId) VALUES (?,?)');
+            $stmt->bindParam(1, $this->id);
+            $stmt->bindParam(2, $annonceId);
+            return $stmt->execute();
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return false;

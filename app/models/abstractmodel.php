@@ -27,6 +27,11 @@ abstract class AbstractModel
         $this->id = $id;
     }
 
+    protected function getId()
+    {
+        return $this->id;
+    }
+
     public function getFullName()
     {
         return $this->nom . ' ' . $this->prenom;
