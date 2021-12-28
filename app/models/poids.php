@@ -47,4 +47,20 @@ class Poids
             return false;
         }
     }
+
+    public static function getPoids($poidsId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM poids WHERE id = ?');
+            $stmt->bindParam(1, $poidsId);
+            $stmt->execute();
+            $data = $stmt->fetch();
+            return new Poids($data['0'], $data['1']);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }

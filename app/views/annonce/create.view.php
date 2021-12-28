@@ -1,9 +1,8 @@
-<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php' ?>
-
+<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php'; ?>
 <section class="annonce">
     <h2 class="main-heading">Créer une annonce</h2>
     <div class="container">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data" onsubmit="validateForm()">
             <div class="adresse">
                 <h4>Le point de départ :</h4>
                 <input type="text" placeholder="Commune" name="communeDepart">
@@ -21,9 +20,9 @@
             </div>
             <div class="adresse">
                 <h4>Le point de d'arrivé :</h4>
-                <input type="text" placeholder="Commune" name="communeArrive">
-                <input type="text" placeholder="Adresse" name="adrArrive">
-                <select name="wilayaArrive">
+                <input type="text" placeholder="Commune" name="communeArrive" required>
+                <input type="text" placeholder="Adresse" name="adrArrive" required>
+                <select name="wilayaArrive" required>
                     <?php
                     $wilayas = $this->_data['wilayas'];
                     foreach ($wilayas as $wilaya) {
@@ -34,7 +33,7 @@
                     ?>
                 </select>
             </div>
-            <select name="typeDeTransport">
+            <select name="typeDeTransport" required>
                 <?php
                 $types = $this->_data['typesTransport'];
                 foreach ($types as $type) {
@@ -51,9 +50,10 @@
                 foreach ($poidsIntervals as $poids) {
                     ?>
                     <div class="poids-radio">
-                        <input id="<?php echo $poids->getPoidsId();?>" type="radio" name="poids" value="<?php echo $poids->getPoidsId();?>"/>
-                        <label for="<?php echo $poids->getPoidsId();?>">
-                            <?php echo $poids->getPoidsInterval();?>
+                        <input id="<?php echo $poids->getPoidsId(); ?>" type="radio" name="poids"
+                               value="<?php echo $poids->getPoidsId(); ?>"/>
+                        <label for="<?php echo $poids->getPoidsId(); ?>">
+                            <?php echo $poids->getPoidsInterval(); ?>
                         </label>
                     </div>
                     <?php
@@ -71,7 +71,29 @@
                 ?>
             </select>
             <textarea maxlength="250" placeholder="Description" name="description"></textarea>
+            <div class="file-form">
+                Image de votre produit :
+                <input type="file" name="file" required accept="image/jpeg,image/jpg,image/png"/>
+                <p class="error-text">L'image de produit est obligatoire</p>
+            </div>
+            <?php
+            if (isset($_SESSION["errorMessage"])) {
+                echo '<p class="error-text show">' . $_SESSION["errorMessage"] . '</p>';
+                unset($_SESSION["errorMessage"]);
+            }
+            ?>
             <input type="submit" name="submit" value="Créer l'annonce">
         </form>
     </div>
 </section>
+<script>
+    function validateForm() {
+        const file = document.querySelector('input[type=file]');
+
+        if (file.value === '') {
+            const errorText = document.querySelector('input[type=file]+p.error-text');
+            errorText.classList.add('show');
+            return false;
+        }
+    }
+</script>

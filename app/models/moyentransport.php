@@ -25,6 +25,22 @@ class MoyenTransport
         $this->id = $id;
     }
 
+    public static function getMoyenTransport($moyenId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM moyentransport WHERE id = ?');
+            $stmt->bindParam(1, $moyenId);
+            $stmt->execute();
+            $data = $stmt->fetch();
+            return new MoyenTransport($data['0'], $data['1']);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
     public static function getAllMoyensTrasport()
     {
         try {

@@ -27,7 +27,7 @@ abstract class AbstractModel
         $this->id = $id;
     }
 
-    protected function getId()
+    public function getId()
     {
         return $this->id;
     }

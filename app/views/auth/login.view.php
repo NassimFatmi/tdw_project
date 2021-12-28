@@ -1,4 +1,4 @@
-<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php' ?>
+<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php'; ?>
 <section class="auth">
     <div class="container">
         <h1 class="main-heading">Se connecter</h1>

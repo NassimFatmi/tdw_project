@@ -80,6 +80,13 @@ button, .link-btn {
     margin-right: auto;
 }
 
+.secondary-heading {
+    border-left: 3px solid var(--main-color);
+    padding-left: 8px;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
 .container {
     margin-left: auto;
     margin-right: auto;
@@ -160,10 +167,6 @@ footer {
 
 footer ul {
     margin-bottom: 1rem;
-}
-
-footer ul li {
-    display: inline-block;
 }
 
 footer ul li a {
@@ -300,3 +303,103 @@ input.error {
 }
 
 /* End annonce */
+
+/* Start presentation */
+
+.presentation .main-heading {
+    color: #fff;
+}
+
+.presentation .presentation-image {
+    background-image: url("http://placehold.it/800/222");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.presentation .content {
+    margin-top: var(--section-padding);
+    margin-bottom: var(--section-padding);
+}
+
+.presentation .content > article,
+.presentation .content > div {
+    margin-bottom: 2rem;
+}
+
+.presentation .presentation-video > div {
+    text-align: center;
+}
+
+.presentation .presentation-video iframe {
+    width: 700px;
+    height: 350px;
+}
+
+/* End presentation */
+
+/* Start index page */
+.tendance {
+    margin-top: var(--section-padding);
+    margin-bottom: var(--section-padding);
+}
+
+.card {
+    border-radius: var(--border-radius);
+    background-color: #fff;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 20%);
+}
+
+.card .text {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tendance .card img {
+    width: 100%;
+    border-radius: var(--border-radius);
+}
+
+.tendance .card a {
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    background-color: var(--main-color);
+    display: inline-block;
+    color: #fff;
+    padding: .5rem .7rem;
+    width: fit-content;
+    margin-top: 1rem;
+}
+
+.tendance .content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    grid-gap: 1rem;
+}
+/* End tendance */
+
+/* Start annonce details */
+.annonce-details {
+    margin-top: var(--section-padding);
+    margin-bottom: var(--section-padding);
+}
+.annonce-details .details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.annonce-details .details .annonce-image img {
+    width: 100%;
+    border-radius: var(--border-radius);
+}
+.tendance .content{
+    padding: 2rem;
+}
+/* End annonce details */

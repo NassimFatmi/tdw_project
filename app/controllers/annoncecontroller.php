@@ -28,45 +28,57 @@ class AnnonceController extends AbstractController
         $this->_data['wilayas'] = Wilaya::getWillayas();
 
         if (isset($_POST['submit'])) {
-            $communeDepart = trim($this->filterString($_POST["communeDepart"]));
-            $adrDepart = trim($this->filterString($_POST["adrDepart"]));
-            $wilayaDepart = trim($this->filterString($_POST["wilayaDepart"]));
-            // Le point de départ
-            $pointDepart = new Adresse($communeDepart, $adrDepart, $wilayaDepart);
+            $fileSize = $_FILES['file']['size'];
+            if ($fileSize < 5000000) {
+                $communeDepart = trim($this->filterString($_POST["communeDepart"]));
+                $adrDepart = trim($this->filterString($_POST["adrDepart"]));
+                $wilayaDepart = trim($this->filterString($_POST["wilayaDepart"]));
+                // Le point de départ
+                $pointDepart = new Adresse($communeDepart, $adrDepart, $wilayaDepart);
 
-            $communeArrive = trim($this->filterString($_POST["communeArrive"]));
-            $adrArrive = trim($this->filterString($_POST["adrArrive"]));
-            $wilayaArrive = trim($this->filterString($_POST["wilayaArrive"]));
-            // Le point d'arrivé
-            $pointArrive = new Adresse($communeArrive, $adrArrive, $wilayaArrive);
+                $communeArrive = trim($this->filterString($_POST["communeArrive"]));
+                $adrArrive = trim($this->filterString($_POST["adrArrive"]));
+                $wilayaArrive = trim($this->filterString($_POST["wilayaArrive"]));
+                // Le point d'arrivé
+                $pointArrive = new Adresse($communeArrive, $adrArrive, $wilayaArrive);
 
-            // le type de transport
-            $typeTransportId = trim($this->filterInt($_POST['typeDeTransport']));
-            $typeTransport = $this->_data['typesTransport'][$typeTransportId];
+                // le type de transport
+                $typeTransportId = trim($this->filterInt($_POST['typeDeTransport']));
 
-            // le moyen de transport
-            $moyenTransportId = trim($this->filterInt($_POST['moyen']));
-            $moyenTransport = $this->_data['moyensTransport'][$moyenTransportId];
+                $typeTransport = $this->_data['typesTransport'][$typeTransportId - 1];
 
-            // Le poids
-            $poidsId = trim($this->filterInt($_POST['poids']));
-            $poids = $this->_data['poidsIntervals'][$poidsId];
+                // le moyen de transport
+                $moyenTransportId = trim($this->filterInt($_POST['moyen']));
+                $moyenTransport = $this->_data['moyensTransport'][$moyenTransportId - 1];
 
-            // la description
-            $description = trim($this->filterString($_POST['description']));
+                // Le poids
+                $poidsId = trim($this->filterInt($_POST['poids']));
+                $poids = $this->_data['poidsIntervals'][$poidsId - 1];
 
-            $annonce = new Annonce($pointArrive, $pointDepart, $typeTransport, $moyenTransport, $poids, $description);
-            // current client id
-            $result = $_SESSION['user']->saveClientAnnonce($annonce);
-            if($result) {
-                $_SESSION['successMessage'] = "Votre annonce a été publier";
-                $this->redirect('/');
+                // la description
+                $description = trim($this->filterString($_POST['description']));
+
+                $annonce = new Annonce($pointArrive, $pointDepart, $typeTransport, $moyenTransport, $poids, $description);
+                // current client id
+                $result = $_SESSION['user']->saveClientAnnonce($annonce);
+                if ($result) {
+                    $_SESSION['successMessage'] = "Votre annonce a été publier";
+                    $this->redirect('/');
+                } else {
+                    $_SESSION['errorMessage'] = 'Il y a un probleme essayer plus tard';
+                }
             } else {
-                $_SESSION['errorMessage'] = 'Il y a un probleme essayer plus tard';
-                // $this->redirect('/');
+                $_SESSION['errorMessage'] = 'Votre fichier est trop large.';
             }
         }
+        $this->_view();
+    }
 
+    public function detailsAction()
+    {
+        $annonce = Annonce::getAnnonce($this->_params[0]);
+        $this->_data['annonce'] = $annonce;
+        $this->_data['annonceClient'] = $annonce->getAnnonceClientName();
         $this->_view();
     }
 }

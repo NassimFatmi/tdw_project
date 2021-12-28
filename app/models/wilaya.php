@@ -16,12 +16,30 @@ class Wilaya
         $this->name = $name;
     }
 
-    public function getName () {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getCode () {
+    public function getCode()
+    {
         return $this->code;
+    }
+
+    public static function getWilaya($wilayaId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM wilayas WHERE id = ?');
+            $stmt->bindParam(1, $wilayaId);
+            $stmt->execute();
+            $data = $stmt->fetch();
+            return new Wilaya($data['1'], $data['2']);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
     }
 
     public static function getWillayas()
@@ -34,7 +52,7 @@ class Wilaya
             $wilayas = $stmt->fetchAll();
             $result = [];
             foreach ($wilayas as $wilaya) {
-                array_push($result,new Wilaya($wilaya['1'],$wilaya['2']));
+                array_push($result, new Wilaya($wilaya['1'], $wilaya['2']));
             }
             return $result;
         } catch (\PDOException $e) {

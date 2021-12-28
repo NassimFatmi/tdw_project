@@ -28,9 +28,20 @@ class Adresse
         return $this->adresseId;
     }
 
-    public function getFullAdresse()
+    public function getCommune()
     {
-        return $this->commune . ', ' . $this->adr . ', Wilaya: ' . $this->wilayaCode;
+        return $this->commune;
+    }
+
+    public function getAdresseExacte()
+    {
+        return $this->adr;
+    }
+
+    public function getWilaya()
+    {
+        $wilaya = Wilaya::getWilaya($this->wilayaCode);
+        return $wilaya->getName();
     }
 
     public function saveAdresse()
@@ -62,7 +73,7 @@ class Adresse
             $result = $stmt->execute();
             if (!$stmt->rowCount()) return false;
             $data = $stmt->fetch();
-            $adresse = new Adresse($data['commune'],$data['adr'],$data['wilayaId']);
+            $adresse = new Adresse($data['commune'], $data['adr'], $data['wilayaId']);
             $adresse->setAdresseId($adresseId);
             return $adresse;
         } catch (\PDOException $e) {

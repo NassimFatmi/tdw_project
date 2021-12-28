@@ -25,6 +25,22 @@ class TypeTransport
         $this->id = $id;
     }
 
+    public static function getTypeTransport($typeId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM typetransport WHERE id = ?');
+            $stmt->bindParam(1, $typeId);
+            $stmt->execute();
+            $data = $stmt->fetch();
+            return new TypeTransport($data['0'], $data['1']);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
     public static function getAllTypesTransport()
     {
         try {
