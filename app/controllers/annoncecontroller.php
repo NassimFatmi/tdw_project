@@ -16,6 +16,11 @@ class AnnonceController extends AbstractController
     use InputFilter;
     use Helper;
 
+    public function init()
+    {
+        echo '<title>VTC | Annonce</title>';
+    }
+
     public function createAction()
     {
         if (!isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] !== true) {

@@ -19,7 +19,7 @@ class AuthController extends AbstractController
 
     public function init()
     {
-        echo '<title>VTC | Auth</title>';
+        echo '<title>VTC | Authentication</title>';
     }
 
     public function loginAction()

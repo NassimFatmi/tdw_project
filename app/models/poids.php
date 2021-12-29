@@ -31,7 +31,6 @@ class Poids
             $conn = new Database();
             $db = $conn->connect();
             $stmt = $db->prepare('SELECT * FROM poids');
-            $stmt->execute();
             $result = $stmt->execute();
 
             if (!$result || !$stmt->rowCount()) return false;

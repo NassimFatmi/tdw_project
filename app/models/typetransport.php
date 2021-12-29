@@ -47,7 +47,6 @@ class TypeTransport
             $conn = new Database();
             $db = $conn->connect();
             $stmt = $db->prepare('SELECT * FROM typetransport');
-            $stmt->execute();
             $result = $stmt->execute();
 
             if (!$result || !$stmt->rowCount()) return false;

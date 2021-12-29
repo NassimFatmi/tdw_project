@@ -53,11 +53,6 @@ if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true && is_a($_SESSION
 <section class="tendance">
     <div class="container">
         <h2 class="secondary-heading">La tendance des annonce</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.</p>
     </div>
     <div class="content">
         <?php
@@ -78,7 +73,40 @@ if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true && is_a($_SESSION
                             <div>Wilaya d'arrivé : <span><?php echo $annonce['arriveWilaya']; ?></span></div>
                         </div>
                     </div>
-                    <a href="/annonce/details/<?php echo $annonce['annonceId']; ?>">Voir plus</a>
+                    <a class="link-btn" href="/annonce/details/<?php echo $annonce['annonceId']; ?>">Voir plus</a>
+                </div>
+            </article>
+            <?php
+        }
+        ?>
+    </div>
+    <div class="how-to">
+        <a class="link-btn" href="/presentation">Comment cela fonctionne</a>
+    </div>
+</section>
+
+<section class="latest-news">
+    <div class="container">
+        <h2 class="secondary-heading">News</h2>
+    </div>
+    <div class="content">
+        <?php
+        $lastesNews = $this->_data['news'];
+        foreach ($lastesNews as $news) {
+            ?>
+            <article class="card">
+                <div class="text">
+                    <div>
+                        <h3><?php echo $news->getTitle(); ?></h3>
+                        <article>
+                            <?php
+                            $summary = $news->getSummary();
+                            $shortSummary = substr($summary,0,100);
+                            echo $shortSummary.'...';
+                            ?>
+                        </article>
+                    </div>
+                    <a class="link-btn" href="/news/details/<?php echo $news->getNewsId(); ?>">Voir plus</a>
                 </div>
             </article>
             <?php

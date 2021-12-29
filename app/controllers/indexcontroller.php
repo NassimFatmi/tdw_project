@@ -3,6 +3,7 @@
 namespace TDW\Controllers;
 
 use TDW\Models\Annonce;
+use TDW\Models\News;
 
 class IndexController extends AbstractController
 {
@@ -21,6 +22,7 @@ class IndexController extends AbstractController
     {
         $annonces = Annonce::getRandomAnnonce();
         $this->_data['annonces'] = $annonces ? $annonces : [];
+        $this->_data['news'] = News::getNews(4,0);
         $this->_view();
     }
 
