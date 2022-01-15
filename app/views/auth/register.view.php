@@ -4,12 +4,12 @@
         <h1 class="main-heading">Inscrire</h1>
         <?php
         if (isset($_SESSION["errorMessage"])) {
-            echo '<p class=" show">' . $_SESSION["errorMessage"] . '</p>';
+            echo '<p class="error-text show">' . $_SESSION["errorMessage"] . '</p>';
             unset($_SESSION["errorMessage"]);
         }
         ?>
         <div class="content">
-            <form method="post" onsubmit="return validateForm()">
+            <form method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
                 <input type="email" placeholder="Email" name="email" required>
                 <input id="password" type="password" placeholder="Mot de passe" name="password" required>
                 <p class="error-text">Il faut confimer votre mot de passe</p>
@@ -33,10 +33,10 @@
                         ?>
                     </select>
                 </div>
-                <label>
+                <div class="isTransporteur">
                     Vous êtês un transporteur ?
                     <input id="isTransporteur" type="checkbox" name="isTransporteur">
-                </label>
+                </div>
                 <div id="trajets" class="trajets">
                     <h4>Selectionner vos trajets :</h4>
                     <select name="trajets[]" multiple>
@@ -50,7 +50,18 @@
                         ?>
                     </select>
                 </div>
-                <input type="submit" name="submit" value="Inscrire">
+                <div class="file-form">
+                    Photo de profile :
+                    <input type="file" name="file" required accept="image/jpeg,image/jpg,image/png"/>
+                    <p class="error-text">La photo de profile est obligatoire</p>
+                </div>
+                <?php
+                if (isset($_SESSION["errorMessage"])) {
+                    echo '<p class="error-text show">' . $_SESSION["errorMessage"] . '</p>';
+                    unset($_SESSION["errorMessage"]);
+                }
+                ?>
+                <input class="link-btn" type="submit" name="submit" value="Inscrire">
             </form>
         </div>
     </div>
@@ -74,6 +85,14 @@
             confirmPassword.classList.add('error');
             const pswdTextError = document.querySelector('.error-text');
             pswdTextError.classList.add('show');
+            return false;
+        }
+
+        const file = document.querySelector('input[type=file]');
+
+        if (file.value === '') {
+            const errorText = document.querySelector('input[type=file]+p.error-text');
+            errorText.classList.add('show');
             return false;
         }
     }

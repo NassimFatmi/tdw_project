@@ -3,9 +3,12 @@
 namespace TDW\Models;
 
 use TDW\LIB\Database\Database;
+use TDW\LIB\File;
 
 class Annonce
 {
+    use File;
+
     private $annonceId;
     private $pointDepart;
     private $pointArrive;
@@ -13,6 +16,11 @@ class Annonce
     private $moyenTransport;
     private $poids;
     private $description;
+    private $createdAt;
+    private $verifier;
+    private $archive;
+    private $prix;
+    private $finished;
 
     public function __construct($pointArrive, $pointDepart, $typeTransport, $moyenTransport, $poids, $description)
     {
@@ -24,9 +32,34 @@ class Annonce
         $this->description = $description;
     }
 
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
     public function setAnnonceId($id)
     {
         $this->annonceId = $id;
+    }
+
+    public function setVerifer($verifier)
+    {
+        $this->verifier = $verifier;
+    }
+
+    public function setArchiver($archive)
+    {
+        $this->archive = $archive;
+    }
+
+    public function setFinished($finished)
+    {
+        $this->finished = $finished;
+    }
+
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
     }
 
     public function getAnnonceId()
@@ -64,6 +97,21 @@ class Annonce
         return $this->moyenTransport;
     }
 
+    public function isVerified()
+    {
+        return $this->verifier;
+    }
+
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    public function isFinished()
+    {
+        return $this->finished;
+    }
+
     public function saveAnnonce()
     {
         try {
@@ -91,8 +139,7 @@ class Annonce
             if (!$result) return false;
             $id = $db->lastInsertId();
             $this->setAnnonceId($id);
-            $saved = $this->_saveAnnonceImage($this->annonceId, 'annonce', 'annonces');
-            return $saved;
+            return $this->_saveImage($this->annonceId, 'annonce', 'annonces');
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return false;
@@ -105,12 +152,14 @@ class Annonce
             $conn = new Database();
             $db = $conn->connect();
             $stmt = $db->prepare('
-                        SELECT id1 AS annonceId, departWilaya, arriveWilaya,description FROM
-                                (SELECT annonceId AS id1, description,wilayas.nom AS departWilaya 
+                        SELECT id1 AS annonceId, departWilaya, arriveWilaya,description,verifier,prix FROM
+                                (SELECT annonceId AS id1, description,wilayas.nom AS departWilaya,verifier,prix
                                     FROM annonce
                                     JOIN adresse
                                     ON adresse.adresseId = annonce.adresseDepart
-                                    JOIN wilayas ON wilayas.id = wilayaId) t1
+                                    JOIN wilayas ON wilayas.id = wilayaId
+                                    WHERE verifier = true AND finished = false
+                                    ) t1
                                 JOIN
                                 (SELECT annonceId AS id2 ,wilayas.nom AS arriveWilaya
                                     FROM annonce
@@ -154,6 +203,11 @@ class Annonce
 
             $annonce = new Annonce($pointArrive, $pointDepart, $typeTransport, $moyenTransport, $poids, $annonceData['description']);
             $annonce->setAnnonceId($annonceData['annonceId']);
+            $annonce->setCreatedAt($annonceData['created_at']);
+            $annonce->setVerifer($annonceData['verifier']);
+            $annonce->setPrix($annonceData['prix']);
+            $annonce->setFinished($annonceData['finished']);
+
             return $annonce;
         } catch (\PDOException $e) {
             echo $e->getMessage();
@@ -161,42 +215,9 @@ class Annonce
         }
     }
 
-    private function _saveAnnonceImage($annonceId, $filePrefix, $path)
+    public function getAnnonceClientName()
     {
-        $file = $_FILES['file'];
-        $fileName = $_FILES['file']['name'];
-        $fileTmpName = $_FILES['file']['tmp_name'];
-        $fileSize = $_FILES['file']['size'];
-        $fileError = $_FILES['file']['error'];
-        $fileType = $_FILES['file']['type'];
-        $fileExt = explode('.', $fileName);
-        $fileAcctualExt = strtolower(end($fileExt));
-
-        $allowed = array('jpg', 'jpeg', 'png');
-        if (in_array($fileAcctualExt, $allowed)) {
-            if ($fileError === 0) {
-                if ($fileSize < 5000000) {
-                    $fileNewName = $filePrefix . '_' . $annonceId . '.' . $fileAcctualExt;
-                    $fileDestination = PUBLIC_FOLDER . DS . 'uploads' . DS . $path . DS . $fileNewName;
-                    move_uploaded_file($fileTmpName, $fileDestination);
-                    unset($_FILES);
-                    return true;
-                } else {
-                    $_SESSION['errorMessage'] = 'Votre fichier est trop large.';
-                    return false;
-                }
-            } else {
-                $_SESSION['errorMessage'] = 'Il y a un error lors le telechargement de votre fichier';
-                return false;
-            }
-        } else {
-            $_SESSION['errorMessage'] = 'On accepte pas ce type de ficher.';
-            return false;
-        }
-    }
-
-    public function getAnnonceClientName() {
-        if(!$this->annonceId) return false;
+        if (!$this->annonceId) return false;
         try {
             $conn = new Database();
             $db = $conn->connect();
@@ -208,6 +229,120 @@ class Annonce
             $stmt->bindParam(1, $this->annonceId);
             $stmt->execute();
             return $stmt->fetch();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function getClientAnnonces($clientId, $limit, $offset)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM clientannonce
+                                        JOIN annonce ON annonce.annonceId = clientannonce.annonceId
+                                        WHERE clientannonce.clientId = :id AND archive = 0
+                                        ORDER BY created_at DESC
+                                        LIMIT :limit OFFSET :offset');
+            $stmt->bindParam(':id', $clientId, \PDO::PARAM_INT);
+            $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $data = $stmt->fetchAll();
+
+            $annonces = [];
+
+            foreach ($data as $item) {
+                // get annonce adresses
+                $pointDepart = Adresse::getAdresse($item['adresseDepart']);
+                $pointArrive = Adresse::getAdresse($item['adresseArrive']);
+
+                // get the spécifications
+                $poids = Poids::getPoids($item['poids']);
+                $moyenTransport = MoyenTransport::getMoyenTransport($item['moyentransport']);
+                $typeTransport = TypeTransport::getTypeTransport($item['typeTransport']);
+                $annonce = new Annonce($pointArrive, $pointDepart, $typeTransport, $moyenTransport, $poids, $item['description'], $item['created_at']);
+                $annonce->setAnnonceId($item['annonceId']);
+                $annonce->setCreatedAt($item['created_at']);
+                $annonce->setVerifer($item['verifier']);
+                $annonce->setPrix($item['prix']);
+                $annonce->setFinished($item['finished']);
+                array_push($annonces, $annonce);
+            }
+            return $annonces;
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function deleteAnnonce($annonceId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('UPDATE annonce SET annonce.archive = true WHERE annonce.annonceId = ?');
+            $stmt->bindParam(1, $annonceId);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function searchAnnonce($wilayaDepartId, $wilayaArriveId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM
+                                                (SELECT annonce.finished,annonce.verifier,annonce.archive,annonce.annonceId,annonce.description,annonce.prix,adresse.wilayaId AS wilayaDepart
+                                                FROM annonce
+                                                JOIN adresse ON adresse.adresseId = annonce.adresseDepart) t1
+                                                JOIN
+                                                (SELECT annonce.annonceId,adresse.wilayaId AS wilayaArrive
+                                                FROM annonce
+                                                JOIN adresse ON adresse.adresseId = annonce.adresseArrive) t2
+                                                ON t1.annonceId = t2.annonceId
+                                                WHERE wilayaDepart = ? AND wilayaArrive = ? AND finished = false AND verifier = true AND archive = false');
+            $stmt->bindParam(1, $wilayaDepartId);
+            $stmt->bindParam(2, $wilayaArriveId);
+            $stmt->execute();
+            if (!$stmt->rowCount()) return [];
+            $data = $stmt->fetchAll();
+            $db = null;
+            return $data;
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function getAnnonceFinished ()
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT annonceId FROM annonce WHERE finished = true');
+            $stmt->execute();
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function getAnnonceNumber ()
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT annonceId FROM annonce');
+            $stmt->execute();
+            return $stmt->rowCount();
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return false;

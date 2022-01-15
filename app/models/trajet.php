@@ -50,4 +50,8 @@ class Trajet
             return false;
         }
     }
+
+    public function getWilayaId () {
+        return $this->wilayaId;
+    }
 }

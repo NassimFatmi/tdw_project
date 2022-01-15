@@ -38,6 +38,11 @@ class Adresse
         return $this->adr;
     }
 
+    public function getWilayaCode()
+    {
+        return $this->wilayaCode;
+    }
+
     public function getWilaya()
     {
         $wilaya = Wilaya::getWilaya($this->wilayaCode);

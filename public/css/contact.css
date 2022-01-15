@@ -1,0 +1,18 @@
+.contact {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+}
+.contact p {
+    margin-bottom: 1rem;
+}
+.contact form {
+    width: 500px;
+    text-align: center;
+    margin: 0 auto;
+}
+.contact form input:not(input[type="submit"]) {
+    width: 100%;
+}
+.contact form textarea {
+    height: 300px;
+}

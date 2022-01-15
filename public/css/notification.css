@@ -1,0 +1,23 @@
+.notifications {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+}
+
+.notifications .card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    min-height: 0;
+}
+
+.notifications .card img {
+    width: 100px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
+.notifications .card .actions {
+    display: flex;
+    gap: .5rem;
+    padding-right: 1rem;
+}

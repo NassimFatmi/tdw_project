@@ -1,0 +1,53 @@
+.auth {
+    margin-top: var(--section-padding);
+    margin-bottom: var(--section-padding);
+}
+
+.auth form {
+    width: 400px;
+    margin: auto;
+}
+
+.auth form input:not(input[type='checkbox']) {
+    width: 100%;
+}
+
+.auth input[type='checkbox'] {
+    display: inline-block;
+}
+
+.auth .isTransporteur {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.auth .trajets {
+    padding: 1rem 0;
+    display: none;
+    width: 350px;
+    margin: 0 auto;
+}
+
+.auth select {
+    width: 350px;
+    padding: .5rem;
+    border: 1px solid var(--main-color);
+    border-radius: var(--border-radius);
+}
+
+.auth select:focus {
+    outline: 1px solid var(--main-color);
+}
+
+.auth .trajets.show {
+    display: block;
+}
+.auth .isTransporteur {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.auth input[type="checkbox"] {
+    margin: 0 0 0 1rem;
+}

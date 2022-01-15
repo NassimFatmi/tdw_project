@@ -9,10 +9,11 @@ class NewsController extends AbstractController
     public function init()
     {
         echo '<title>VTC | News</title>';
+        echo '<link href="/css/news.css" rel="stylesheet">';
     }
     public function defaultAction()
     {
-        $currentPage = isset($this->_params[0]) ? $this->_params[0] : 0;
+        $currentPage = isset($this->_params[0]) ? $this->_params[0] * 6: 0;
         $news = News::getNews(6, $currentPage);
 
         $this->_data['newsPage'] = $news;

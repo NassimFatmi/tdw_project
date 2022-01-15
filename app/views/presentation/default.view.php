@@ -30,7 +30,7 @@
                             allowfullscreen></iframe>
                 </div>
             </div>
-            <article class="presentation-function">
+            <article id="presentation-function" class="presentation-function">
                 <h3 class="secondary-heading">Comment VTC fonctionne ?</h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore

@@ -30,14 +30,14 @@
     <div class="select-page">
         <?php if (isset($this->_params[0]) && $this->_params[0] != 0) {
             ?>
-            <a href="/news/default/<?php echo($this->_params[0] - 1); ?>"><i class="fas fa-arrow-left"></i></a>
+            <a class="link-btn" href="/news/default/<?php echo($this->_params[0] - 1); ?>"><i class="fas fa-arrow-left"></i></a>
             <?php
         }
         ?>
         <span><?php echo isset($this->_params[0]) ? ($this->_params[0] + 1) : 1; ?></span>
         <?php if ($this->_data['newsCount'] >= 6) {
             ?>
-            <a href="/news/default/<?php echo isset($this->_params[0]) ? ($this->_params[0] + 1) : 1; ?>">
+            <a class="link-btn" href="/news/default/<?php echo isset($this->_params[0]) ? ($this->_params[0] + 1) : 1; ?>">
                 <i class="fas fa-arrow-right"></i></a>
             <?php
         }

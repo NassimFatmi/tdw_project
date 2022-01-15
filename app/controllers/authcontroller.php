@@ -4,7 +4,6 @@ namespace TDW\Controllers;
 
 
 use TDW\LIB\Helper;
-use TDW\Models\AbstractModel;
 use TDW\Models\Adresse;
 use TDW\Models\Client;
 use TDW\Models\Trajet;
@@ -20,6 +19,7 @@ class AuthController extends AbstractController
     public function init()
     {
         echo '<title>VTC | Authentication</title>';
+        echo '<link href="/css/auth.css" rel="stylesheet">';
     }
 
     public function loginAction()
@@ -49,57 +49,63 @@ class AuthController extends AbstractController
 
     public function registerAction()
     {
-        $this->_data['wilayas'] = Wilaya::getWillayas();
-
         if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true) {
             $this->redirect('/');
         }
 
+        $this->_data['wilayas'] = Wilaya::getWillayas();
+
         if (isset($_POST["submit"])) {
-            // User general information
-            $nom = trim($this->filterString($_POST["nom"]));
-            $prenom = trim($this->filterString($_POST["prenom"]));
-            $email = trim($this->filterString($_POST["email"]));
-            $password = trim($this->filterString($_POST["password"]));
-            $phone = trim($this->filterString($_POST["phone"]));
+            $fileSize = $_FILES['file']['size'];
+            if ($fileSize < 5000000) {
+                // User general information
+                $nom = trim($this->filterString($_POST["nom"]));
+                $prenom = trim($this->filterString($_POST["prenom"]));
+                $email = trim($this->filterString($_POST["email"]));
+                $password = trim($this->filterString($_POST["password"]));
+                $phone = trim($this->filterString($_POST["phone"]));
 
-            // User adresse
-            $adresse = trim($this->filterString($_POST["adr"]));
-            $commune = trim($this->filterString($_POST["commune"]));
-            $wilayaCode = trim($this->filterString($_POST["wilaya"]));
+                // User adresse
+                $adresse = trim($this->filterString($_POST["adr"]));
+                $commune = trim($this->filterString($_POST["commune"]));
+                $wilayaCode = trim($this->filterString($_POST["wilaya"]));
 
-            $userAdresse = new Adresse($commune, $adresse, $wilayaCode);
+                $userAdresse = new Adresse($commune, $adresse, $wilayaCode);
 
-            if (isset($_POST["isTransporteur"])) {
-                if (!isset($_POST['trajets'])) {
-                    return;
+                if (isset($_POST["isTransporteur"])) {
+                    if (!isset($_POST['trajets'])) {
+                        return;
+                    }
+                    $trajetsArray = $_POST['trajets'];
+                    $userTrajets = Trajet::buildTrajets($trajetsArray);
+                    $user = new Transporteur($nom, $prenom, $email, $phone, $userAdresse);
+                    $user->setTrajets($userTrajets);
+                } else {
+                    $user = new Client($nom, $prenom, $email, $phone, $userAdresse);
                 }
-                $trajetsArray = $_POST['trajets'];
-                $userTrajets = Trajet::buildTrajets($trajetsArray);
-                $user = new Transporteur($nom, $prenom, $email, $phone, $userAdresse);
-                $user->setTrajets($userTrajets);
-            } else {
-                $user = new Client($nom, $prenom, $email, $phone, $userAdresse);
-            }
 
-            if ($user->exists($email)) {
-                $_SESSION["errorMessage"] = 'Utilisateur déja exister, Essayer de se connecter';
-                $this->redirect('/auth/login');
-            }
-            if ($user->register($password)) {
-                unset($_SESSION["errorMessage"]);
-                $this->redirect('/auth/login');
+                if ($user->exists($email)) {
+                    $_SESSION["errorMessage"] = 'Utilisateur déja exister, Essayer de se connecter';
+                    $this->redirect('/auth/login');
+                }
+                if ($user->register($password)) {
+                    unset($_SESSION["errorMessage"]);
+                    $this->redirect('/auth/login');
+                } else {
+                    $_SESSION["errorMessage"] = 'Il y a un probleme';
+                }
             } else {
-                $_SESSION["errorMessage"] = 'Il y a un probleme';
+                $_SESSION['errorMessage'] = 'Votre fichier est trop large.';
             }
         }
         $this->_view();
     }
 
-    public function logoutAction()
+    public
+    function logoutAction()
     {
         unset($_SESSION["isAuth"]);
         unset($_SESSION["user"]);
-        $this->redirect('/');
+        $this->redirect('/auth/login');
     }
 }

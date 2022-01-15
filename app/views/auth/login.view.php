@@ -12,11 +12,11 @@
             <form method="post">
                 <input type="email" placeholder="Email" name="email">
                 <input type="password" placeholder="Mot de passe" name="password">
-                <label>
+                <div class="isTransporteur">
                     Vous êtês un transporteur ?
                     <input id="accountType" type="checkbox" name="accountType">
-                </label>
-                <input type="submit" name="submit" value="Se connecter">
+                </div>
+                <input class="link-btn" type="submit" name="submit" value="Se connecter">
             </form>
         </div>
     </div>

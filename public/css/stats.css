@@ -1,0 +1,19 @@
+.stats {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+}
+.stats .content {
+    display: flex;
+    justify-content: space-between;
+}
+.stats article {
+    margin-bottom: 2rem;
+}
+.stats .card {
+    min-height: 0;
+    padding: 1rem;
+    border-bottom: 3px solid var(--fourth-color);
+}
+.stats .card span {
+    color: var(--main-color);
+}

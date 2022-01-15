@@ -1,0 +1,32 @@
+.presentation .main-heading {
+    color: #fff;
+}
+
+.presentation .presentation-image {
+    background-image: url("http://placehold.it/800/222");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.presentation .content {
+    margin-top: var(--section-padding);
+    margin-bottom: var(--section-padding);
+}
+
+.presentation .content > article,
+.presentation .content > div {
+    margin-bottom: 2rem;
+}
+
+.presentation .presentation-video > div {
+    text-align: center;
+}
+
+.presentation .presentation-video iframe {
+    width: 700px;
+    height: 350px;
+}

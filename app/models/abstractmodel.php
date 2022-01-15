@@ -3,6 +3,7 @@
 namespace TDW\Models;
 
 use TDW\LIB\Database\Database;
+use TDW\LIB\File;
 
 abstract class AbstractModel
 {
@@ -32,6 +33,16 @@ abstract class AbstractModel
         return $this->id;
     }
 
+    public function getName()
+    {
+        return $this->nom;
+    }
+
+    public function getLastName()
+    {
+        return $this->prenom;
+    }
+
     public function getFullName()
     {
         return $this->nom . ' ' . $this->prenom;
@@ -42,8 +53,46 @@ abstract class AbstractModel
         return $this->adresse->getFullAdresse();
     }
 
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    public function contactAdmin($email,$objet, $message)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('INSERT INTO reports (email,objet,message) VALUES (?,?,?)');
+            $stmt->bindParam(1,$email);
+            $stmt->bindParam(2,$objet);
+            $stmt->bindParam(3,$message);
+            return  $stmt->execute();
+        }catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
     abstract public function register($password);
 
     abstract public function exists($email);
 
+    abstract public function getNotifications();
+
+    abstract public function accepteDemande($annonceId, $demandeId);
+
+    abstract public function refuseDemande($annonceId, $demandeId);
+
+    abstract public function getTransactions();
 }

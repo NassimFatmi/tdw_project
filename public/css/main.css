@@ -6,7 +6,10 @@
 
 :root {
     --main-color: #26c6da;
+    --main-color-opacity: rgb(38 198 218 / 60%);
     --secondary-color: #e91e63;
+    --third-color: #1de9b6;
+    --fourth-color: #ffc400;
     --section-padding: 50px;
     --border-radius: 4px;
 }
@@ -28,7 +31,7 @@ ul {
     list-style: none;
 }
 
-input:not(input[type='radio']) {
+input:not(input[type='radio']):not(input[type='submit']):not(input[type="checkbox"]) {
     display: block;
     margin-bottom: 1rem;
     padding: .5rem 1rem;
@@ -64,9 +67,23 @@ button, .link-btn {
     border-radius: var(--border-radius);
 }
 
+hr {
+    border: none;
+    border-top: 1px solid rgb(0 0 0 / 5%);
+}
+
 .link-btn {
     display: inline-block;
     text-decoration: none;
+}
+
+.delete {
+    background-color: var(--secondary-color);
+}
+
+.prix {
+    font-weight: bold;
+    color: var(--secondary-color);
 }
 
 /* End global rules */
@@ -86,6 +103,27 @@ button, .link-btn {
     margin-bottom: 1rem;
     font-size: 2rem;
 }
+
+.success-text, .error-text, .alert-text {
+    background-color: var(--third-color);
+    color: #fff;
+    padding: .5rem 1rem;
+    border-radius: var(--border-radius);
+    display: none;
+}
+
+.alert-text {
+    background-color: var(--fourth-color);
+}
+
+.error-text {
+    background-color: var(--secondary-color);
+}
+
+.error-text.show {
+    display: block;
+}
+
 
 .container {
     margin-left: auto;
@@ -175,26 +213,7 @@ footer ul li a {
 }
 
 /* Start auth section */
-.auth {
-    margin-top: var(--section-padding);
-    margin-bottom: var(--section-padding);
-}
 
-.auth form input:not(input[type='checkbox']) {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-}
-
-.auth input[type='checkbox'] {
-    display: inline-block;
-}
-
-.auth label {
-    width: 100%;
-    margin: 0 auto;
-    display: block;
-}
 
 .adresse {
     width: 100%;
@@ -207,42 +226,11 @@ footer ul li a {
     margin-bottom: 1rem;
 }
 
-.auth .trajets {
-    padding: 1rem 0;
-    display: none;
-    width: 350px;
-    margin: 0 auto;
-}
-
-.auth select {
-    width: 350px;
-    padding: .5rem;
-    border: 1px solid var(--main-color);
-    border-radius: var(--border-radius);
-}
-
-.auth select:focus {
-    outline: 1px solid var(--main-color);
-}
-
-.auth .trajets.show {
-    display: block;
-}
 
 input.error {
     border: 2px solid var(--secondary-color);
 }
 
-.error-text {
-    color: var(--secondary-color);
-    text-align: center;
-    font-size: 12px;
-    display: none;
-}
-
-.error-text.show {
-    display: block;
-}
 
 /* end auth section */
 /* start operations */
@@ -289,7 +277,7 @@ input.error {
     outline-width: 1px;
 }
 
-.annonce form textarea {
+form textarea {
     padding: .5rem 1rem;
     width: 100%;
     max-height: 120px;
@@ -303,43 +291,6 @@ input.error {
 }
 
 /* End annonce */
-
-/* Start presentation */
-
-.presentation .main-heading {
-    color: #fff;
-}
-
-.presentation .presentation-image {
-    background-image: url("http://placehold.it/800/222");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 350px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.presentation .content {
-    margin-top: var(--section-padding);
-    margin-bottom: var(--section-padding);
-}
-
-.presentation .content > article,
-.presentation .content > div {
-    margin-bottom: 2rem;
-}
-
-.presentation .presentation-video > div {
-    text-align: center;
-}
-
-.presentation .presentation-video iframe {
-    width: 700px;
-    height: 350px;
-}
-
-/* End presentation */
 
 /* Start index page */
 .tendance {
@@ -379,6 +330,7 @@ input.error {
     justify-items: center;
     grid-gap: 1rem;
 }
+
 /* End tendance */
 
 /* Start annonce details */
@@ -386,22 +338,31 @@ input.error {
     margin-top: var(--section-padding);
     margin-bottom: var(--section-padding);
 }
+
 .annonce-details .details {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
 }
 
+.annonce-details .detail.status h5 span {
+    color: var(--main-color);
+    font-weight: bold;
+}
+
 .annonce-details .details .annonce-image img {
     width: 100%;
     border-radius: var(--border-radius);
 }
-.tendance .content{
+
+.tendance .content {
     padding: 2rem;
 }
+
 .how-to {
     text-align: center;
 }
+
 /* End annonce details */
 
 /* start latest news */
@@ -409,6 +370,7 @@ input.error {
     margin-top: var(--section-padding);
     margin-bottom: var(--section-padding);
 }
+
 .latest-news .content {
     padding: 0 2rem;
     display: grid;
@@ -416,54 +378,126 @@ input.error {
     justify-items: center;
     grid-gap: 1rem;
 }
+
 .latest-news .text {
     height: 100%;
 }
+
 .latest-news .text > div {
     margin-bottom: 1rem;
 }
+
 .latest-news .link-btn {
     width: fit-content;
 }
-/* end latest news */
 
-/* start news details */
-.news-details {
-    margin-top: var(--section-padding);
-    margin-bottom: var(--section-padding);
-}
-.news-details article h3 {
-    margin-bottom: 1rem;
-}
-.news-details article p:first-of-type {
-    font-style: italic;
-    margin-bottom: 1rem;
-}
-/* end news details */
-
-/* start news section */
-.news {
-    margin-top: var(--section-padding);
-    margin-bottom: var(--section-padding);
-}
-.news .content {
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
-    grid-gap: 1rem;
-}
-.news .text {
-    height: 100%;
-}
-.news .text > div {
-    margin-bottom: 1rem;
-}
-.news .select-page {
+.latest-news .see-more {
     text-align: center;
-    padding: 2rem 0 0;
+    margin-top: 1rem;
 }
-.news .select-page a {
+
+/* start search */
+.search {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+}
+
+.search .content form {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.search .content select {
+    padding: .5rem 1rem;
+    border: 1px solid rgb(0 0 0 / 20%);
+    outline: 0 solid var(--main-color);
+    border-radius: var(--border-radius);
+}
+
+.search select:hover {
+    outline: 1px solid var(--main-color);
+}
+
+.search .card {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+
+.search .card img {
+    width: 200px;
+    border-radius: var(--border-radius);
+}
+
+.search .card .text a {
+    margin-top: 1rem;
+    width: fit-content;
+}
+
+.search .dest {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.search .dest > span {
+    font-style: italic;
+    font-weight: normal;
     color: var(--main-color);
+
 }
-/* end news section */
+
+/* end search */
+/* start find transporteur */
+.find-transporteurs {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+}
+
+.find-transporteurs .annonce {
+    display: flex;
+    min-height: 0;
+}
+
+.find-transporteurs .annonce img {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+}
+
+.find-transporteurs .transporteur {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.find-transporteurs h4 {
+    margin-bottom: 1rem;
+}
+
+.find-transporteurs .transporteur img {
+    width: 100px;
+    object-fit: cover;
+}
+
+.find-transporteurs .transporteur a {
+    width: fit-content;
+    margin-top: 1rem;
+}
+
+.find-transporteurs .transporteur img {
+    border-radius: var(--border-radius);
+}
+
+/* end find transporteur */
+
+/* Start certifer */
+
+.certifer {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+}
+
+/* End certifier */

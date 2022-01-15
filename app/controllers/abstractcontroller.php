@@ -4,6 +4,7 @@ namespace TDW\Controllers;
 
 use TDW\LIB\Database\Database;
 use TDW\LIB\FrontController;
+use TDW\Templates\Templates;
 
 class AbstractController
 {
@@ -41,17 +42,17 @@ class AbstractController
             if (file_exists($view)) {
                 extract($this->_data);
 
-                require_once APP_PATH . DS . 'templates' . DS . 'templateheaderstart.php';
+                Templates::headerStart();
                 if (method_exists($this, 'init')) {
                     $this->init();
                 }
-                require_once APP_PATH . DS . 'templates' . DS . 'templateheaderend.php';
+                Templates::headerEnd();
                 require_once $view;
-                require_once APP_PATH . DS . 'templates' . DS . 'templatefooter.php';
+                Templates::templateFooter();
                 if (method_exists($this, 'scripts')) {
                     $this->scripts();
                 }
-                require_once APP_PATH . DS . 'templates' . DS . 'templatefileend.php';
+                Templates::fileEnd();
             } else {
                 require_once VIEWS_PATH . 'notfound' . DS . 'noview.view.php';
             }
