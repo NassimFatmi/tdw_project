@@ -158,7 +158,7 @@ class Annonce
                                     JOIN adresse
                                     ON adresse.adresseId = annonce.adresseDepart
                                     JOIN wilayas ON wilayas.id = wilayaId
-                                    WHERE verifier = true AND finished = false
+                                    WHERE verifier = true AND finished = false AND archive = false
                                     ) t1
                                 JOIN
                                 (SELECT annonceId AS id2 ,wilayas.nom AS arriveWilaya
@@ -321,7 +321,7 @@ class Annonce
         }
     }
 
-    public static function getAnnonceFinished ()
+    public static function getAnnonceFinished()
     {
         try {
             $conn = new Database();
@@ -335,7 +335,7 @@ class Annonce
         }
     }
 
-    public static function getAnnonceNumber ()
+    public static function getAnnonceNumber()
     {
         try {
             $conn = new Database();

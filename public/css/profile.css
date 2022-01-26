@@ -158,8 +158,7 @@
     text-align: center;
 }
 
-.annonces-list .select-page span,
-.news .select-page span {
+.annonces-list .select-page span {
     display: inline-block;
     padding: 1rem;
     background-color: #f4f4f4;

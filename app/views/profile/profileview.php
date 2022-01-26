@@ -41,7 +41,7 @@ class ProfileView
                         <h4 class="secondary-heading"># <?php echo $currentUser->getId(); ?></h4>
                         <?php if (is_a($_SESSION['user'], \TDW\Models\Transporteur::class)) { ?>
                             <div>
-                                Les étoiles : <?php echo $currentUser->getStarsRatio(); ?> / 5
+                                Les étoiles : <?php echo $currentUser->getCount() != 0 ? $currentUser->getStarsRatio() : 0; ?> / 5
                                 <span><i class="fas fa-user"></i> <?php echo $currentUser->getCount(); ?> </span>
                             </div>
                         <?php } ?>

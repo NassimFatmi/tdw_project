@@ -217,7 +217,7 @@ class Transporteur extends AbstractModel
                     array_push($ids, $id[0]);
                 }
                 $sqlArray = '(' . implode(',', $ids) . ')';
-                $getTransporteursStmt = $db->prepare('SELECT transporteurId,nom,prenom,phone,certifier FROM transporteur WHERE transporteurId IN ' . $sqlArray);
+                $getTransporteursStmt = $db->prepare('SELECT transporteurId,nom,prenom,phone,certifier,stars,count FROM transporteur WHERE transporteurId IN ' . $sqlArray);
                 $getTransporteursStmt->execute();
                 return $getTransporteursStmt->fetchAll();
             } else return false;

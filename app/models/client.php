@@ -276,4 +276,21 @@ class Client extends AbstractModel
             return false;
         }
     }
+
+    public function signaler($transporteurId, $objet, $message)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('INSERT INTO signals (clientId,transporteurId,objet,message) VALUES (?,?,?,?)');
+            $stmt->bindParam(1, $this->id);
+            $stmt->bindParam(2, $transporteurId);
+            $stmt->bindParam(3, $objet);
+            $stmt->bindParam(4, $message);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }

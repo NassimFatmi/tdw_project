@@ -20,7 +20,11 @@ body {
 }
 
 header {
-    padding: 1rem;
+    padding: .5rem 1rem;
+}
+
+header .logo i {
+    font-size: 2rem;
 }
 
 html {
@@ -120,7 +124,9 @@ hr {
     background-color: var(--secondary-color);
 }
 
-.error-text.show {
+.error-text.show,
+.alert-text.show,
+.success-text.show {
     display: block;
 }
 
@@ -176,7 +182,6 @@ header a, .menu ul li a {
     text-decoration: none;
     margin-right: 1rem;
     color: #000;
-    font-weight: 600;
     transition: color .2s;
 }
 
@@ -294,8 +299,9 @@ form textarea {
 
 /* Start index page */
 .tendance {
-    margin-top: var(--section-padding);
-    margin-bottom: var(--section-padding);
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+    background-color: #f6f6f6;
 }
 
 .card {
@@ -303,6 +309,7 @@ form textarea {
     background-color: #fff;
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 20%);
     min-height: 150px;
+    max-height: 400px;
     position: relative;
 }
 
@@ -317,6 +324,7 @@ form textarea {
 .tendance .card img {
     width: 100%;
     height: 40%;
+    object-fit: cover;
     border-radius: var(--border-radius);
 }
 
@@ -501,3 +509,12 @@ form textarea {
 }
 
 /* End certifier */
+.green {
+    background-color: var(--third-color);
+}
+.red {
+    background-color: var(--secondary-color);
+}
+.yellow {
+    background-color: var(--fourth-color);
+}

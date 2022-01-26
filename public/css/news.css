@@ -35,5 +35,12 @@
 
 .news .select-page {
     text-align: center;
-    padding: 2rem 0 0;
+    margin-top: 1rem;
+}
+
+.news .select-page span {
+    display: inline-block;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: var(--border-radius);
 }

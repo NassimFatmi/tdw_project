@@ -301,6 +301,12 @@ class AnnonceView
                                                 : <?php echo $transporteur['phone'] ? $transporteur['phone'] : '/';; ?></li>
                                             <li>Certifier
                                                 : <?php echo $transporteur['certifier'] ? 'Oui' : 'Non';; ?></li>
+                                            <li>
+                                                Les étoiles
+                                                : <?php echo $transporteur['count'] != 0 ? $transporteur['stars'] / $transporteur['count'] : 0; ?>
+                                                / 5
+                                                <span><i class="fas fa-user"></i> <?php echo $transporteur['count']; ?> </span>
+                                            </li>
                                         </ul>
                                         <?php
                                         $demande = $_SESSION['user']->isDemander($annonce->getAnnonceId(), $transporteur['transporteurId']);

@@ -4,6 +4,7 @@ namespace TDW\Controllers;
 
 
 use TDW\LIB\Helper;
+use TDW\Models\Admin;
 use TDW\Models\Adresse;
 use TDW\Models\Client;
 use TDW\Models\Trajet;
@@ -101,8 +102,26 @@ class AuthController extends AbstractController
         $this->_view();
     }
 
-    public
-    function logoutAction()
+    public function adminAction()
+    {
+        if (isset($_SESSION["admin"])) {
+            $this->redirect('/dashboard');
+        }
+        if(isset($_POST["submit"])) {
+            $adminName = trim($this->filterString($_POST["adminName"]));
+            $password = trim($this->filterString($_POST["password"]));
+            $admin = Admin::login($adminName,$password);
+            if($admin) {
+                $_SESSION["admin"] = $admin;
+                $this->redirect("/dashboard");
+            } else {
+                $_SESSION["errorMessage"] = "Information incorrecte";
+            }
+        }
+        $this->_view();
+    }
+
+    public function logoutAction()
     {
         unset($_SESSION["isAuth"]);
         unset($_SESSION["user"]);

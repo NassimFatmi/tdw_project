@@ -1,0 +1,61 @@
+.admin {
+    display: flex;
+    background-color: #f2f2f2;
+}
+
+.admin .content {
+    flex: 1;
+}
+
+.admin aside {
+    background-color: #333;
+    padding: 1rem;
+    color: #fff;
+}
+
+.admin aside ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin aside ul a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 1rem;
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+    transition: background-color .3s;
+}
+
+.admin aside ul a:hover {
+    background-color: rgb(255 255 255 / 20%);
+}
+
+.admin .content {
+    padding: 1rem;
+}
+
+.admin table {
+    background-color: #fff;
+    border-radius: var(--border-radius);
+}
+
+.admin table,
+.admin th,
+.admin td {
+    border: 1px solid var(--main-color);
+    border-collapse: collapse;
+}
+
+.admin th,
+.admin td {
+    padding: 8px;
+}
+
+.adminAction {
+    margin: auto;
+}
+
+.admin form {
+    padding: 1rem;
+}

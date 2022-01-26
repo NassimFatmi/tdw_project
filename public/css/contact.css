@@ -16,3 +16,9 @@
 .contact form textarea {
     height: 300px;
 }
+.adminInfo {
+    margin-bottom: var(--section-padding);
+}
+.adminInfo  ul li {
+    padding: .5rem 1rem;
+}

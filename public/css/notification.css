@@ -16,6 +16,10 @@
     border-radius: var(--border-radius);
 }
 
+.notifications .card .text {
+    flex: 1;
+}
+
 .notifications .card .actions {
     display: flex;
     gap: .5rem;

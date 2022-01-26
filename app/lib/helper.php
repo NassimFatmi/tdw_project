@@ -16,4 +16,9 @@ trait Helper
         if (!isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] !== true) return false;
         else return true;
     }
+    public function isAdmin()
+    {
+        if (!isset($_SESSION["admin"])) return false;
+        else return true;
+    }
 }

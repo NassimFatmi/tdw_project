@@ -73,6 +73,11 @@ function createNotificationForClient($notification)
                 <a class="link-btn delete"
                    href="/notification/refuser/<?php echo $notification['annonceId'] . "/" . $notification['id']; ?>">Refuser</a>
                 <?php
+            } else {
+                ?>
+                <a class="link-btn yellow"
+                   href="/signal/default/<?php echo $notification['transporteurId']; ?>">Signaler</a>
+                <?php
             }
             ?>
         </div>
