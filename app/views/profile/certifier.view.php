@@ -1,6 +1,7 @@
-<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php';
+<?php
+\TDW\Templates\Templates::navbar();
 function showForm()
-{
+    {
     ob_start();
     ?>
     <section class="certifer">
@@ -14,8 +15,8 @@ function showForm()
             </form>
         </div>
     </section>
-    <?php
-    echo ob_get_clean();
+<?php
+echo ob_get_clean();
 }
 
 showForm();

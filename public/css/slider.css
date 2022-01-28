@@ -66,3 +66,9 @@
     background-color: rgba(17, 173, 121, .6);
     cursor: no-drop;
 }
+
+@media (max-width: 767px) {
+    .slider-container {
+        height: 200px;
+    }
+}

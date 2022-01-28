@@ -5,6 +5,7 @@ namespace TDW\Controllers;
 use TDW\LIB\Helper;
 use TDW\LIB\InputFilter;
 use TDW\Models\Content;
+use TDW\Models\Poids;
 use TDW\Models\Signal;
 
 class DashboardController extends AbstractController
@@ -20,6 +21,7 @@ class DashboardController extends AbstractController
 
     public function defaultAction()
     {
+        if (!$this->isAdmin()) $this->redirect("/");
         $this->_view();
     }
 
@@ -112,6 +114,7 @@ class DashboardController extends AbstractController
 
     public function createnewsAction()
     {
+        if (!$this->isAdmin()) $this->redirect("/");
         if (isset($_POST['submit'])) {
             $fileSize = $_FILES['file']['size'];
             if ($fileSize < 5000000) {
@@ -136,12 +139,14 @@ class DashboardController extends AbstractController
 
     public function signalsAction()
     {
+        if (!$this->isAdmin()) $this->redirect("/");
         $this->_data["signals"] = $_SESSION["admin"]->getSignals();
         $this->_view();
     }
 
     public function contentAction()
     {
+        if (!$this->isAdmin()) $this->redirect("/");
         $this->_data["content"] = Content::getPresentationContent();
         $this->_view();
     }
@@ -203,4 +208,5 @@ class DashboardController extends AbstractController
         }
         $this->redirect("/dashboard");
     }
+
 }

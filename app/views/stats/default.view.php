@@ -1,4 +1,6 @@
-<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php'; ?>
+<?php
+\TDW\Templates\Templates::navbar();
+?>
 <section class="stats">
     <div class="container">
         <h2 class="main-heading">Les statistiques de VTC</h2>

@@ -15,6 +15,7 @@ class Templates
                     <span>VTC</span>
                 </a>
             </div>
+            <button class="toggle"><i class="fas fa-bars"></i></button>
             <nav>
                 <?php
                 if (isset($_SESSION["isAuth"]) && $_SESSION["isAuth"] === true) {
@@ -36,6 +37,10 @@ class Templates
                                 <i class="fas fa-chart-line"></i>
                                 Statistiques</a>
                         </li>
+                        <li><a href="/news">
+                                <i class="fas fa-newspaper"></i>
+                                News</a>
+                        </li>
                         <li><a href="/contact">
                                 <i class="fas fa-phone"></i>
                                 contact</a></li>
@@ -53,6 +58,13 @@ class Templates
                 }
                 ?>
             </nav>
+            <script>
+                const toggle = document.querySelector(".toggle");
+                toggle.addEventListener("click", (e) => {
+                    const nav = document.querySelector("header nav");
+                    nav.classList.toggle("show");
+                });
+            </script>
         </header>
         <?php
         echo ob_get_clean();

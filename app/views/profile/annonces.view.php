@@ -1,4 +1,6 @@
-<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php'; ?>
+<?php
+\TDW\Templates\Templates::navbar();
+?>
 <section class="annonces-list">
     <div class="container">
         <h2 class="secondary-heading">Vos annonces</h2>

@@ -66,7 +66,7 @@ class IndexView
                     <?php
                     if (is_a($_SESSION["user"], \TDW\Models\Client::class)) {
                         ?>
-                        <div>
+                        <div class="create-annonce">
                             <p>Créer votre annonce, et chercher des transporteur</p>
                             <a class="link-btn" href="/annonce/create">Créer une annonce</a>
                         </div>

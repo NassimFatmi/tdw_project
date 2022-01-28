@@ -18,7 +18,6 @@ class ContactController extends AbstractController
 
     public function defaultAction()
     {
-        if(!$this->isAuthenticated()) $this->redirect("/auth/login");
         if(isset($_POST["submit"])) {
             $email = $this->filterString($_POST["email"]);
             $objet = $this->filterString($_POST["objet"]);

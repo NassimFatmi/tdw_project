@@ -8,27 +8,54 @@
 }
 
 .admin aside {
-    background-color: #333;
-    padding: 1rem;
-    color: #fff;
+    padding-top: 1rem;
+    background-color: #fff;
+    border-radius: 30px;
+    margin: 1rem 0 1rem 1rem;
+    min-height: 80vh;
+    box-shadow: 1px 1px 5px 0 rgb(0 0 0 / 5%);
+}
+
+.admin aside h2 {
+    font-size: 1rem;
+    text-align: center;
+    font-weight: normal;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgb(0 0 0 / 5%);
+}
+
+.admin aside h2 a {
+    text-decoration: none;
+    color: black;
 }
 
 .admin aside ul {
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
 }
 
+.admin aside ul li {
+    margin-bottom: 1rem;
+}
+
 .admin aside ul a {
+    color: #333;
     display: block;
-    color: #fff;
     text-decoration: none;
-    padding: 1rem;
+    padding: .5rem 1rem;
+    margin: 0 1rem;
+    border-radius: 20px;
     border-bottom: 1px solid rgb(255 255 255 / 20%);
     transition: background-color .3s;
 }
 
+.admin aside ul a i {
+    font-size: 1.2rem;
+}
+
 .admin aside ul a:hover {
-    background-color: rgb(255 255 255 / 20%);
+    background-color: rgb(0 0 0 / 5%);
 }
 
 .admin .content {
@@ -36,6 +63,7 @@
 }
 
 .admin table {
+    width: 100%;
     background-color: #fff;
     border-radius: var(--border-radius);
 }
@@ -59,29 +87,69 @@
 .admin form {
     padding: 1rem;
 }
+
 .signal-details {
     padding: 1rem;
 }
+
 .signal-details h3 {
     font-weight: normal;
     color: var(--secondary-color);
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
+
 .signal-details ul {
     margin-bottom: 1rem;
 }
+
 .update-content {
     padding: 1rem;
 }
+
 .update-content.card {
     max-height: fit-content;
 }
+
 .update-content label input {
     width: 100%;
 }
+
 .update-content textarea {
     display: block;
-    min-height: 200px;
     width: 100%;
+}
+
+.admin {
+    padding-top: 50px;
+}
+.admin-nav  {
+    margin-top: .5rem;
+    justify-content: center;
+    border-radius: 20px;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.admin-nav ul li a{
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    align-items: center;
+}
+.admin-nav ul li a:hover {
+    background-color: rgb(0 0 0 / 5%);
+}
+
+.admin table .link-btn {
+    font-size: 14px;
+    padding: .2rem .5rem;
+    margin: 5px;
+}
+
+.admin .secondary-heading+.link-btn {
+    margin-bottom: 1rem;
 }

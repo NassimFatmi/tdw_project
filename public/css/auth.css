@@ -7,7 +7,11 @@
     width: 400px;
     margin: auto;
 }
-
+@media (max-width: 767px) {
+    .auth form {
+        width: 100%;
+    }
+}
 .auth form input:not(input[type='checkbox']) {
     width: 100%;
 }

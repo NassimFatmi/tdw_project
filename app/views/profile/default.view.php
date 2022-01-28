@@ -143,7 +143,6 @@ $currentUser = $this->_data['user'];
             <div class="transactions">
                 <?php
                 $transactions = $this->_data['transactions'];
-
                 $total = 0;
                 foreach ($transactions as $transaction) {
                     $total += $transaction['prix'];
@@ -159,6 +158,9 @@ $currentUser = $this->_data['user'];
                     ?>
                     <span><?php echo $total; ?> DA</span></h3>
                 <?php
+                if (is_a($_SESSION['user'], \TDW\Models\Transporteur::class)) {
+                    echo 'Les frais de VTC sont de 10% de votre profit : -' . ($total * 0.1) . 'DA';
+                }
                 foreach ($transactions as $transaction) {
                     ?>
                     <article class="card">

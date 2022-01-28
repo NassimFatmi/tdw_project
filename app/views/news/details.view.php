@@ -1,4 +1,5 @@
-<?php include_once APP_PATH . DS . 'templates' . DS . 'templatenavbar.php';
+<?php
+\TDW\Templates\Templates::navbar();
 $news = $this->_data['news'];
 ?>
 <section class="news-details">
