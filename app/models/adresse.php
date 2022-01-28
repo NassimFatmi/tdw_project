@@ -86,4 +86,20 @@ class Adresse
             return false;
         }
     }
+
+    public static function updateAdresse($adresseId, $adr, $commune)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('UPDATE adresse SET commune = ? , adr = ? WHERE adresseId = ?');
+            $stmt->bindParam(1, $commune);
+            $stmt->bindParam(2, $adr);
+            $stmt->bindParam(3, $adresseId);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }

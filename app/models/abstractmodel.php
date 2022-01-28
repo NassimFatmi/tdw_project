@@ -95,4 +95,6 @@ abstract class AbstractModel
     abstract public function refuseDemande($annonceId, $demandeId);
 
     abstract public function getTransactions();
+
+    abstract public function modifyProfile($adresse,$commune,$phone);
 }

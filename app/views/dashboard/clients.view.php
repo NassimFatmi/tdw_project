@@ -27,8 +27,13 @@ $clients = $this->_data["clients"];
                     <td><?php echo $client["email"]; ?></td>
                     <td><?php echo $client["phone"]; ?></td>
                     <td>
-                        <a class="link-btn" href="/dashboard/client/<?php echo $client["clientId"]; ?>">Voir profile</a>
-                        <a class="link-btn red" href="/dashboard/client/<?php echo $client["clientId"]; ?>">Ban</a>
+                        <a class="link-btn" href="/profile/summary/client/<?php echo $client["clientId"]; ?>">Voir profile</a>
+                        <a class="link-btn red"
+                           href="/dashboard/banclient/<?php echo $client["clientId"]; ?>/<?php echo $client["banned"] ? 0 : 1; ?>">
+                            <?php
+                            echo $client["banned"] ? 'Unban' : 'Ban';
+                            ?>
+                        </a>
                     </td>
                 </tr>
                 <?php

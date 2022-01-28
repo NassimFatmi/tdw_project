@@ -23,6 +23,10 @@ $currentUser = $this->_data['user'];
     </ul>
     <div class="view container">
         <div class="tab show">
+            <a class="link-btn" href="/profile/modifier/<?php echo $currentUser->getId(); ?>">
+                <i class="fas fa-edit"></i>
+                Modifier Mes informations
+            </a>
             <h4>Information générale</h4>
             <ul>
                 <li>

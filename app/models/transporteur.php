@@ -105,7 +105,7 @@ class Transporteur extends AbstractModel
         try {
             $conn = new Database();
             $db = $conn->connect();
-            $stmt = $db->prepare('SELECT transporteurId,nom,prenom,email,phone,adresseId,certifier,stars,count FROM transporteur WHERE email = ? AND password = ?');
+            $stmt = $db->prepare('SELECT transporteurId,nom,prenom,email,phone,adresseId,certifier,stars,count,banned FROM transporteur WHERE email = ? AND password = ?');
             $stmt->bindParam(1, $email);
             $stmt->bindParam(2, $password);
 
@@ -113,6 +113,7 @@ class Transporteur extends AbstractModel
 
             if ($stmt->rowCount()) {
                 $data = $stmt->fetch();
+                if ($data["banned"]) return false;
                 // get user adresse
                 $userAdresse = Adresse::getAdresse($data['adresseId']);
                 $transporteur = new Transporteur($data["nom"], $data["prenom"], $data["email"], $data["phone"], $userAdresse);
@@ -334,6 +335,64 @@ class Transporteur extends AbstractModel
                 $id = $db->lastInsertId();
                 return $this->_saveImage($id, 'certifcat', 'certifications');
             } else return false;
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function getTransporteurSummary($transporteurId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM transporteur WHERE transporteurId = ?');
+            $stmt->bindParam(1, $transporteurId);
+            if ($stmt->execute()) {
+                $data = $stmt->fetch();
+                $userAdresse = Adresse::getAdresse($data['adresseId']);
+                $profile = new Transporteur($data["nom"], $data["prenom"], $data["email"], $data["phone"], $userAdresse);
+                $profile->setCertifier($data["certifier"]);
+                $profile->setId($data["transporteurId"]);
+
+                $trajetStmt = $db->prepare('SELECT * FROM trajet WHERE transporteurId = ?');
+                $trajetStmt->bindParam(1, $data["transporteurId"]);
+                $trajetStmt->execute();
+
+                $trajetsData = $trajetStmt->fetchAll();
+
+                $trajets = [];
+                foreach ($trajetsData as $trajetData) {
+                    $trajet = new Trajet();
+                    $trajet->setWilayaId($trajetData['wilayaId']);
+                    array_push($trajets, $trajet);
+                }
+                $profile->setTrajets($trajets);
+
+                return $profile;
+            } else return false;
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function modifyProfile($adresse, $commune, $phone)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $phoneStmt = $db->prepare('UPDATE transporteur SET phone = ? WHERE transporteurId = ?');
+            $phoneStmt->bindParam(1, $phone);
+            $phoneStmt->bindParam(2, $this->id);
+            $result = $phoneStmt->execute();
+            $result2 = Adresse::updateAdresse($this->adresse->getAdresseId(), $adresse,$commune);
+            $this->phone = $phone;
+            if ($result && $result2) {
+                $this->adresse = Adresse::getAdresse($this->adresse->getAdresseId());
+                return true;
+            }
+            return false;
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return false;

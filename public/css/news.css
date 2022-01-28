@@ -44,3 +44,6 @@
     padding: 1rem;
     border-radius: var(--border-radius);
 }
+.news .card {
+    width: 100%;
+}

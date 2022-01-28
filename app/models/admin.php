@@ -229,4 +229,34 @@ class Admin
             return false;
         }
     }
+
+    public function banClient($clientId, $decision)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('UPDATE client SET banned = ? WHERE clientId = ?');
+            $stmt->bindParam(1, $decision);
+            $stmt->bindParam(2, $clientId);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function banTransporteur($transporteurId, $decision)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('UPDATE transporteur SET banned = ? WHERE transporteurId = ?');
+            $stmt->bindParam(1, $decision);
+            $stmt->bindParam(2, $transporteurId);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }

@@ -4,6 +4,8 @@ namespace TDW\Controllers;
 
 use TDW\LIB\Helper;
 use TDW\LIB\InputFilter;
+use TDW\Models\Content;
+use TDW\Models\Signal;
 
 class DashboardController extends AbstractController
 {
@@ -140,6 +142,65 @@ class DashboardController extends AbstractController
 
     public function contentAction()
     {
+        $this->_data["content"] = Content::getPresentationContent();
         $this->_view();
+    }
+
+    public function signaldetailsAction()
+    {
+        if (!$this->isAdmin()) $this->redirect("/");
+        if (!isset($this->_params[0])) $this->redirect("/notfound");
+        $id = $this->_params[0];
+        $this->_data["signal"] = Signal::getSignal($id);
+        $this->_view();
+    }
+
+    public function updatecontentAction()
+    {
+        if (!$this->isAdmin()) $this->redirect("/");
+        if (!isset($this->_params[0])) $this->redirect("/notfound");
+        $id = $this->_params[0];
+        $this->_data["content"] = Content::getContentById($id);
+        if (isset($_POST["submit"])) {
+            $title = $this->filterString($_POST["title"]);
+            $body = $this->filterString($_POST["body"]);
+            $video = $this->filterString($_POST["video"]);
+            $image = $this->filterString($_POST["image"]);
+            $result = $this->_data["content"]->modifier($title, $body, $video, $image);
+            if ($result) {
+                $_SESSION["successMessage"] = "Le contenu est modifié";
+                // $this->redirect("/dashboard");
+            } else {
+                $_SESSION["errorMessage"] = "Il y a un problème";
+            }
+        }
+        $this->_view();
+    }
+
+    public function banclientAction()
+    {
+        if (!$this->isAdmin()) $this->redirect("/");
+        if (!isset($this->_params[0]) || !isset($this->_params[1])) $this->redirect("/notfound");
+        $clientId = $this->_params[0];
+        $decision = $this->_params[1];
+        if ($_SESSION['admin']->banClient($clientId, $decision)) {
+            $_SESSION["successMessage"] = 'L\'état du client est mis à jour';
+        } else {
+            $_SESSION["errorMessage"] = 'Il y a un problème';
+        }
+        $this->redirect("/dashboard");
+    }
+
+    public function bantransporteurAction () {
+        if (!$this->isAdmin()) $this->redirect("/");
+        if (!isset($this->_params[0]) || !isset($this->_params[1])) $this->redirect("/notfound");
+        $transporteurId = $this->_params[0];
+        $decision = $this->_params[1];
+        if ($_SESSION['admin']->banTransporteur($transporteurId, $decision)) {
+            $_SESSION["successMessage"] = 'L\'état du transporteur est mis à jour';
+        } else {
+            $_SESSION["errorMessage"] = 'Il y a un problème';
+        }
+        $this->redirect("/dashboard");
     }
 }

@@ -64,13 +64,14 @@ class Client extends AbstractModel
         try {
             $conn = new Database();
             $db = $conn->connect();
-            $stmt = $db->prepare('SELECT clientId,nom,prenom,email,phone,adresseId FROM client WHERE email = ? AND password = ?');
+            $stmt = $db->prepare('SELECT clientId,nom,prenom,email,phone,adresseId,banned FROM client WHERE email = ? AND password = ?');
             $stmt->bindParam(1, $email);
             $stmt->bindParam(2, $password);
 
             $stmt->execute();
             if ($stmt->rowCount()) {
                 $data = $stmt->fetch();
+                if ($data["banned"]) return false;
                 // get user adresse
                 $userAdresse = Adresse::getAdresse($data['adresseId']);
                 $client = new Client($data["nom"], $data["prenom"], $data["email"], $data["phone"], $userAdresse);
@@ -288,6 +289,51 @@ class Client extends AbstractModel
             $stmt->bindParam(3, $objet);
             $stmt->bindParam(4, $message);
             return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function getClientSummary($clientId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT clientId,nom,prenom,email,phone,adresseId,banned FROM client WHERE clientId = ?');
+            $stmt->bindParam(1, $clientId);
+
+            if ($stmt->execute()) {
+                $data = $stmt->fetch();
+                $userAdresse = Adresse::getAdresse($data['adresseId']);
+                $client = new Client($data["nom"], $data["prenom"], $data["email"], $data["phone"], $userAdresse);
+                $client->setId($data["clientId"]);
+                return $client;
+            } else {
+                return false;
+            }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function modifyProfile($adresse, $commune, $phone)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $phoneStmt = $db->prepare('UPDATE client SET phone = ? WHERE clientId = ?');
+            $phoneStmt->bindParam(1, $phone);
+            $phoneStmt->bindParam(2, $this->id);
+            $result = $phoneStmt->execute();
+            $result2 = Adresse::updateAdresse($this->adresse->getAdresseId(), $commune, $adresse);
+            $this->phone = $phone;
+            if ($result && $result2) {
+                $this->adresse = Adresse::getAdresse($this->adresse->getAdresseId());
+                return true;
+            }
+            return false;
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return false;

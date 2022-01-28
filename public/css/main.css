@@ -188,7 +188,6 @@ header a, .menu ul li a {
 header a:hover, .menu ul li a:hover {
     color: var(--main-color);
 }
-
 /* end header */
 /* start Menu */
 .menu {
@@ -207,14 +206,22 @@ footer {
     color: #fff;
     text-align: center;
 }
-
+footer .links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
 footer ul {
+    text-align: start;
     margin-bottom: 1rem;
 }
 
 footer ul li a {
     color: #fff;
     text-decoration: none;
+}
+footer ul li a:hover {
+    border-bottom: 1px solid #fff;
 }
 
 /* Start auth section */

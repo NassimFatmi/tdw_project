@@ -5,6 +5,8 @@ namespace TDW\Controllers;
 use TDW\LIB\Helper;
 use TDW\LIB\InputFilter;
 use TDW\Models\Annonce;
+use TDW\Models\Client;
+use TDW\Models\Transporteur;
 
 class ProfileController extends AbstractController
 {
@@ -46,20 +48,56 @@ class ProfileController extends AbstractController
         $this->_view();
     }
 
-    public function certifierAction () {
+    public function certifierAction()
+    {
         if (!isset($_SESSION['isAuth'])) $this->redirect('/auth/login');
         if (!is_a($_SESSION["user"], \TDW\Models\Transporteur::class)) $this->redirect('/notfound');
 
-        if(isset($_POST['submit']))  {
+        if (isset($_POST['submit'])) {
             $title = $this->filterString($_POST['title']);
             $description = $this->filterString($_POST['description']);
-            if($_SESSION['user']->demanderVerification($title,$description)) {
+            if ($_SESSION['user']->demanderVerification($title, $description)) {
                 $_SESSION['successMessage'] = 'Votre demande de vérification a été envoyer,Attendez la vérification des admins';
                 $this->redirect('/');
             } else {
                 $_SESSION['successMessage'] = 'Il y a un probleme.';
             }
         }
+        $this->_view();
+    }
+
+    public function summaryAction()
+    {
+        if (!isset($_SESSION['isAuth']) && !isset($_SESSION["admin"])) $this->redirect('/auth/login');
+        if (!isset($this->_params[0]) || !isset($this->_params[1])) $this->redirect('/notfound');
+        $type = $this->_params[0];
+        $id = $this->_params[1];
+        if ($type == "transporteur") {
+            $this->_data["user"] = Transporteur::getTransporteurSummary($id);
+            $this->_data["type"] = 0;
+        } else {
+            $this->_data["user"] = Client::getClientSummary($id);
+            $this->_data["type"] = 1;
+
+        }
+        $this->_view();
+    }
+
+    public function modifierAction()
+    {
+        if (!isset($_SESSION['isAuth']) && !isset($_SESSION["admin"])) $this->redirect('/auth/login');
+        if (!isset($this->_params[0])) $this->redirect('/notfound');
+
+        if (isset($_POST["submit"])) {
+            $phone = $this->filterString($_POST["phone"]);
+            $commune = $this->filterString($_POST["commune"]);
+            $adr = $this->filterString($_POST["adresse"]);
+            $res = $_SESSION["user"]->modifyProfile($adr, $commune, $phone);
+            if ($res) {
+                $_SESSION["successMessage"] = "Vos informations sont modifié";
+            } else $_SESSION["errorMessage"] = "Il y a un problème";
+        }
+
         $this->_view();
     }
 }

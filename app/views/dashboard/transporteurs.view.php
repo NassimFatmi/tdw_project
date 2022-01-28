@@ -29,9 +29,14 @@ $transporteurs = $this->_data["transporteurs"];
                     <td><?php echo $transporteur["phone"]; ?></td>
                     <td><?php echo $transporteur["certifier"] ? "Oui" : "Non"; ?></td>
                     <td>
-                        <a class="link-btn" href="/dashboard/client/<?php echo $transporteur["transporteurId"]; ?>">Voir
+                        <a class="link-btn" href="/profile/summary/transporteur/<?php echo $transporteur["transporteurId"]; ?>">Voir
                             profile</a>
-                        <a class="link-btn red" href="/dashboard/client/<?php echo $transporteur["transporteurId"]; ?>">Ban</a>
+                        <a class="link-btn red"
+                           href="/dashboard/bantransporteur/<?php echo $transporteur["transporteurId"]; ?>/<?php echo $transporteur["banned"] ? 0 : 1; ?>">
+                            <?php
+                            echo $transporteur["banned"] ? 'Unban' : 'Ban';
+                            ?>
+                        </a>
                     </td>
                 </tr>
                 <?php

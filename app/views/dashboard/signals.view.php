@@ -27,7 +27,7 @@ $signals = $this->_data["signals"];
                     <td><?php echo $signal["objet"]; ?></td>
                     <td><?php echo $signal["message"]; ?></td>
                     <td>
-                        <a href="" class="link-btn">Voir plus</a>
+                        <a href="/dashboard/signaldetails/<?php echo $signal["signalId"];?>" class="link-btn">Voir plus</a>
                     </td>
                 </tr>
                 <?php
