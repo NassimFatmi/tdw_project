@@ -77,6 +77,9 @@ class DashboardView
                     <i class="fab fa-uber fa-2x"></i>
                     Admin Dashboard</h2></a>
             <ul>
+                <li><a href="/dashboard/demandes">
+                        <i class="fas fa-database"></i>
+                        Les demandes de transport</a></li>
                 <li><a href="/dashboard/annonces">
                         <i class="fas fa-edit"></i>
                         Gestion des annonces</a></li>

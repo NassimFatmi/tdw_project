@@ -259,4 +259,63 @@ class Admin
             return false;
         }
     }
+
+    public function getClientDemandes()
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM clientdemande
+                                        JOIN transporteur ON transporteur.transporteurId = clientdemande.transporteurId
+                                        WHERE done = true');
+            $stmt->bindParam(1, $decision);
+            $stmt->bindParam(2, $transporteurId);
+            if ($stmt->execute()) {
+                return $stmt->fetchAll();
+            } else {
+                return [];
+            }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function clientDoneDemandes()
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM clientdemande
+                                        JOIN (SELECT nom as tnom, prenom as tprenom,email as temail,phone as tphone,transporteurId as tid FROM transporteur) t1 ON t1.tid = clientdemande.transporteurId
+                                        WHERE done = true');
+            if ($stmt->execute()) {
+                return $stmt->fetchAll();
+            } else {
+                return [];
+            }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    public static function transporteursDoneDemandes()
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM transporteurdemande
+                                        JOIN (SELECT nom as tnom, prenom as tprenom,email as temail,phone as tphone,transporteurId as tid FROM transporteur) t1 
+                                        ON t1.tid = transporteurdemande.transporteurId
+                                        WHERE done = true');
+            if ($stmt->execute()) {
+                return $stmt->fetchAll();
+            } else {
+                return [];
+            }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }

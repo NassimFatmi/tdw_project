@@ -4,6 +4,7 @@ namespace TDW\Controllers;
 
 use TDW\LIB\Helper;
 use TDW\LIB\InputFilter;
+use TDW\Models\Admin;
 use TDW\Models\Content;
 use TDW\Models\Diapo;
 use TDW\Models\Poids;
@@ -220,5 +221,10 @@ class DashboardController extends AbstractController
         }
         $this->redirect("/dashboard");
     }
-
+    public function demandesAction () {
+        if (!$this->isAdmin()) $this->redirect("/");
+        $this->_data["clientDemandes"] = $_SESSION["admin"]->clientDoneDemandes();
+        $this->_data["transporteursDemandes"] = $_SESSION["admin"]->transporteursDoneDemandes();
+        $this->_view();
+    }
 }

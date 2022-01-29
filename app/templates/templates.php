@@ -130,6 +130,7 @@ public static function templateFooter ()
                 <li><a href="/stats">Statistiques</a></li>
             </ul>
             <ul>
+                <li><a href="/news">News</a></li>
                 <li><a href="/contact">contact</a></li>
                 <li><a href="/auth/admin">Administration</a></li>
             </ul>
