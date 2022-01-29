@@ -40,6 +40,9 @@ class DashboardView
         <header class="admin-nav">
             <nav>
                 <ul>
+                    <li><a href="/dashboard/demandes">
+                            <i class="fas fa-database"></i>
+                        </a></li>
                     <li><a href="/dashboard/annonces">
                             <i class="fas fa-edit"></i>
                         </a></li>
