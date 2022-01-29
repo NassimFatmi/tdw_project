@@ -299,6 +299,7 @@ class Admin
             return false;
         }
     }
+
     public static function transporteursDoneDemandes()
     {
         try {
@@ -313,6 +314,62 @@ class Admin
             } else {
                 return [];
             }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function finishedClientDemande($id)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('UPDATE clientdemande SET fin = true WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function finishedTransporteurDemande($id)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('UPDATE transporteurdemande SET fin = true WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getCertificationDemandes()
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('SELECT * FROM verficationdemandes WHERE done = false');
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    public function verifierTransporteur($id,$transporteurId)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+
+            $stmt = $db->prepare('UPDATE verficationdemandes SET done = true WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            return $stmt->execute() && Transporteur::certifier($transporteurId);
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return false;

@@ -52,6 +52,9 @@ class DashboardView
                     <li><a href="/dashboard/transporteurs">
                             <i class="fas fa-car"></i>
                         </a></li>
+                    <li><a href="/dashboard/certification">
+                            <i class="fas fa-paperclip"></i>
+                        </a></li>
                     <li><a href="/dashboard/news">
                             <i class="fas fa-newspaper"></i>
                         </a></li>
@@ -92,6 +95,9 @@ class DashboardView
                 <li><a href="/dashboard/transporteurs">
                         <i class="fas fa-car"></i>
                         Gestion des transporteurs</a></li>
+                <li><a href="/dashboard/certification">
+                        <i class="fas fa-paperclip"></i>
+                        Demandes des certification</a></li>
                 <li><a href="/dashboard/news">
                         <i class="fas fa-newspaper"></i>
                         Gestion des news</a></li>

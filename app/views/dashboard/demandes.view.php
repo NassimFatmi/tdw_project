@@ -17,6 +17,7 @@ $tdemandes = $this->_data["transporteursDemandes"];
             <th>Email</th>
             <th>Tél</th>
             <th>Date</th>
+            <th>Satisfait</th>
             <th>Actions</th>
             </thead>
             <tbody>
@@ -32,11 +33,18 @@ $tdemandes = $this->_data["transporteursDemandes"];
                         <td><?php echo $demande["temail"]; ?></td>
                         <td><?php echo $demande["tphone"]; ?></td>
                         <td><?php echo $demande["created_at"]; ?></td>
+                        <td><?php echo $demande["fin"] == true ? "Oui" : "Non"; ?></td>
                         <td>
                             <a class="link-btn" href="/profile/summary/transporteur/<?php echo $demande["tid"]; ?>">Voir
                                 transporteur profile</a>
                             <a class="link-btn" href="/annonce/details/<?php echo $demande["annonceId"]; ?>">Voir
                                 annonce</a>
+                            <?php if ($demande["fin"] == false) {
+                                ?>
+                                <a class="link-btn yellow"
+                                   href="/dashboard/satisfaittransporteur/<?php echo $demande["id"]; ?>">Satisfait</a>
+                                <?php
+                            } ?>
                         </td>
                     </tr>
                     <?php
@@ -54,6 +62,7 @@ $tdemandes = $this->_data["transporteursDemandes"];
             <th>Email</th>
             <th>Tél</th>
             <th>Date</th>
+            <th>Satisfait</th>
             <th>Actions</th>
             </thead>
             <tbody>
@@ -69,11 +78,18 @@ $tdemandes = $this->_data["transporteursDemandes"];
                         <td><?php echo $tdemande["temail"]; ?></td>
                         <td><?php echo $tdemande["tphone"]; ?></td>
                         <td><?php echo $tdemande["created_at"]; ?></td>
+                        <td><?php echo $tdemande["fin"] == true ? "Oui" : "Non"; ?></td>
                         <td>
                             <a class="link-btn" href="/profile/summary/transporteur/<?php echo $tdemande["tid"]; ?>">Voir
                                 transporteur profile</a>
                             <a class="link-btn" href="/annonce/details/<?php echo $tdemande["annonceId"]; ?>">Voir
                                 annonce</a>
+                            <?php if ($tdemande["fin"] == false) {
+                                ?>
+                                <a class="link-btn yellow"
+                                   href="/dashboard/satisfaitclient/<?php echo $tdemande["id"]; ?>">Satisfait</a>
+                                <?php
+                            } ?>
                         </td>
                     </tr>
                     <?php

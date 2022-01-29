@@ -386,7 +386,7 @@ class Transporteur extends AbstractModel
             $phoneStmt->bindParam(1, $phone);
             $phoneStmt->bindParam(2, $this->id);
             $result = $phoneStmt->execute();
-            $result2 = Adresse::updateAdresse($this->adresse->getAdresseId(), $adresse,$commune);
+            $result2 = Adresse::updateAdresse($this->adresse->getAdresseId(), $adresse, $commune);
             $this->phone = $phone;
             if ($result && $result2) {
                 $this->adresse = Adresse::getAdresse($this->adresse->getAdresseId());
@@ -398,4 +398,20 @@ class Transporteur extends AbstractModel
             return false;
         }
     }
+
+    public static function certifier($id)
+    {
+        try {
+            $conn = new Database();
+            $db = $conn->connect();
+            $stmt = $db->prepare('UPDATE transporteur SET certifier = true WHERE transporteurId = ?');
+            $stmt->bindParam(1, $id);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+
 }

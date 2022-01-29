@@ -221,10 +221,58 @@ class DashboardController extends AbstractController
         }
         $this->redirect("/dashboard");
     }
-    public function demandesAction () {
+
+    public function demandesAction()
+    {
         if (!$this->isAdmin()) $this->redirect("/");
         $this->_data["clientDemandes"] = $_SESSION["admin"]->clientDoneDemandes();
         $this->_data["transporteursDemandes"] = $_SESSION["admin"]->transporteursDoneDemandes();
         $this->_view();
+    }
+
+    public function satisfaittransporteurAction()
+    {
+        if (!$this->isAdmin()) $this->redirect("/");
+        $id = $this->_params[0];
+        echo $id;
+        if ($_SESSION["admin"]->finishedClientDemande($id)) {
+            $_SESSION["successMessage"] = "L'annonce est satisfait";
+        } else {
+            $_SESSION["errorMessage"] = "Il y a un problème";
+        }
+        $this->redirect("/dashboard/demandes");
+    }
+
+    public function satisfaitclientAction()
+    {
+        if (!$this->isAdmin()) $this->redirect("/");
+        $id = $this->_params[0];
+        if ($_SESSION["admin"]->finishedTransporteurDemande($id)) {
+            $_SESSION["successMessage"] = "L'annonce est satisfait";
+        } else {
+            $_SESSION["errorMessage"] = "Il y a un problème";
+        }
+        $this->redirect("/dashboard/demandes");
+    }
+
+    public function certificationAction()
+    {
+        if (!$this->isAdmin()) $this->redirect("/");
+        $this->_data["certifier"] = $_SESSION["admin"]->getCertificationDemandes();
+        $this->_view();
+    }
+
+    public function verifierAction()
+    {
+        if (!$this->isAdmin()) $this->redirect("/");
+        $id = $this->_params[0];
+        $transporteurId = $this->_params[1];
+
+        if ($_SESSION["admin"]->verifierTransporteur($id, $transporteurId)) {
+            $_SESSION["successMessage"] = "Le transporteur est certifié";
+        } else {
+            $_SESSION["errorMessage"] = "Il y a un problème";
+        }
+        $this->redirect("/dashboard/certification");
     }
 }

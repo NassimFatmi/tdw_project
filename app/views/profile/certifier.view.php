@@ -11,7 +11,7 @@ function showForm()
                 <input required type="text" placeholder="Titre" name="title">
                 <textarea required name="description" maxlength="1024" placeholder="Description"></textarea>
                 <input type="file" name="file" required accept="image/jpeg,image/jpg,image/png"/>
-                <input required class="link-btn" type="submit" name="submit">
+                <input class="link-btn" value="Demander" type="submit" name="submit">
             </form>
         </div>
     </section>
