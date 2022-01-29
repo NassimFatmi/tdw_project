@@ -153,3 +153,13 @@
 .admin .secondary-heading+.link-btn {
     margin-bottom: 1rem;
 }
+.admin .diapo td form {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.admin .diapo td form input[type='text'] {
+    width: 100%;
+    margin-bottom: 0 !important;
+}

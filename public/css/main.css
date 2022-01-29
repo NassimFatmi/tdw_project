@@ -649,3 +649,11 @@ form textarea {
         object-fit: cover;
     }
 }
+.searchbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.searchbox input {
+    margin-bottom: 0 !important;
+}

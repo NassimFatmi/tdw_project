@@ -7,6 +7,10 @@ $transporteurs = $this->_data["transporteurs"];
     <?php $dashboardView->adminNavbar(); ?>
     <div class="content">
         <h2 class="secondary-heading">Gestion des transporteurs</h2>
+        <div class="searchbox">
+            <input type="text" placeholder="Chercher" id="search">
+            <button id="searchBtn" class="link-btn"><i class="fas fa-search"></i></button>
+        </div>
         <table>
             <thead>
             <th>Id</th>
@@ -46,3 +50,26 @@ $transporteurs = $this->_data["transporteurs"];
         </table>
     </div>
 </div>
+<script>
+    const clients = document.querySelectorAll(".admin table tbody tr");
+    const tableBody = document.querySelector("table tbody");
+    const search = document.getElementById("search");
+    const searchBtn = document.getElementById("searchBtn");
+    searchBtn.onclick = function (e) {
+        if (search.value === "") {
+            clients.forEach(
+                client => tableBody.append(client)
+            );
+            return;
+        }
+        clients.forEach(
+            client => {
+                const text = client.children[1].textContent.toLowerCase();
+                if (text.startsWith(search.value)) {
+                    tableBody.innerHTML = "";
+                    tableBody.append(client);
+                }
+            }
+        );
+    };
+</script>

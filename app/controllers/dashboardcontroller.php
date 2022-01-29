@@ -5,6 +5,7 @@ namespace TDW\Controllers;
 use TDW\LIB\Helper;
 use TDW\LIB\InputFilter;
 use TDW\Models\Content;
+use TDW\Models\Diapo;
 use TDW\Models\Poids;
 use TDW\Models\Signal;
 
@@ -148,6 +149,16 @@ class DashboardController extends AbstractController
     {
         if (!$this->isAdmin()) $this->redirect("/");
         $this->_data["content"] = Content::getPresentationContent();
+        $this->_data["diapos"] = Diapo::getDiapos();
+        if (isset($_POST["changeLink"])) {
+            $id = $_POST["id"];
+            $imageLink = $_POST["link"];
+            if (Diapo::updateDiapo($id, $imageLink) == true) {
+                $_SESSION["successMessage"] = "L'image est modifié";
+            } else {
+                $_SESSION["errorMessage"] = "L'image n'est pas modifié";
+            }
+        }
         $this->_view();
     }
 
@@ -196,7 +207,8 @@ class DashboardController extends AbstractController
         $this->redirect("/dashboard");
     }
 
-    public function bantransporteurAction () {
+    public function bantransporteurAction()
+    {
         if (!$this->isAdmin()) $this->redirect("/");
         if (!isset($this->_params[0]) || !isset($this->_params[1])) $this->redirect("/notfound");
         $transporteurId = $this->_params[0];

@@ -2,6 +2,7 @@
 
 namespace TDW\VIEWS\Index;
 
+use TDW\Models\Diapo;
 use TDW\Templates\Templates;
 
 class IndexView
@@ -32,16 +33,20 @@ class IndexView
 
     private function createDiapo()
     {
+        $diapos = Diapo::getDiapos();
         ob_start();
         ?>
         <section class="diaporama">
             <div class="slider-container">
                 <div id="slider-number" class="slider-number">Slide#6</div>
-                <img src="https://www.dhl.com/content/dam/dhl/local/global/core/images/text-generic-1592x896/g0-pr-tg1-220720.web.796.448.jpg" alt="">
-                <img src="https://www.dhlexpress.be/wp-content/uploads/2017/03/mannetje.png" alt="">
-                <img src="https://www.ttnews.com/sites/default/files/images/articles/dhl_1.jpg" alt="">
-                <img src="https://scontent.falg4-1.fna.fbcdn.net/v/t1.6435-9/187418397_767460173957782_5732651822218844271_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=730e14&_nc_eui2=AeF9C1rACXAzUlcA1F9n3R2MmuZU4XhsVj2a5lTheGxWPXOITrcCj-Px2ShAujkSc5EX_67bjQ9sPXI8H_qB9red&_nc_ohc=R7MlaL7jqgEAX8F0AOE&_nc_ht=scontent.falg4-1.fna&oh=00_AT8zMsLDSI549vwdkPaois96Fr9msTKHu_N9kttXTu1MUQ&oe=620B4880" alt="">
-                <img src="https://www.dhlexpress.be/wp-content/uploads/2017/03/mannetje.png" alt="">
+                <?php
+                foreach ($diapos as $diapo) {
+                    ?>
+                    <img src="<?php echo $diapo->getLink();?>"
+                         alt="<?php echo $diapo->getId();?>">
+                    <?php
+                }
+                ?>
             </div>
             <div class="slider-controle">
                 <span id="prev" class="prev">Previous</span>
